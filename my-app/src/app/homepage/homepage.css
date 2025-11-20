@@ -1,0 +1,19 @@
+div{
+    padding-bottom: 1%;
+    padding-top: 1%;
+    margin-top: 2%;
+}
+h1{margin-top: 1%;}
+.text-news{
+    text-align: left;
+    font-size: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 5%;
+}
+hr.divider {
+    width: 80%;
+}
