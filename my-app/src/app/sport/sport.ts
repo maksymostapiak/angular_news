@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
+import { Theme } from '../theme';
 
 @Component({
   selector: 'app-sport',
@@ -6,6 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './sport.html',
   styleUrl: './sport.css',
 })
-export class Sport {
+export class Sport{
 
 }

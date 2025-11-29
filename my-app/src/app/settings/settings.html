@@ -1,0 +1,25 @@
+<div class="main"><h3>Виберіть тему:</h3>
+<form>
+  <label>
+    <input 
+      type="radio" 
+      name="theme" 
+      value="light" 
+      [(ngModel)]="theme"
+      (change)="changeTheme('light')"
+    >
+    Світла тема
+  </label>
+
+  <label style="margin-left: 20px;">
+    <input 
+      type="radio" 
+      name="theme" 
+      value="dark" 
+      [(ngModel)]="theme"
+      (change)="changeTheme('dark')"
+    >
+    Темна тема
+  </label>
+</form>
+</div>
