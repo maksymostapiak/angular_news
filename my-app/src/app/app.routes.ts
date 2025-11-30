@@ -5,6 +5,7 @@ import { Political } from './political/political';
 import { Sport } from './sport/sport';
 import { It } from './it/it';
 import { Settings } from './settings/settings';
+import { Business } from './business/business';
 
 export const routes: Routes = [
      {
@@ -30,6 +31,10 @@ export const routes: Routes = [
       {
     path: 'settings',
     component: Settings,
+  },
+      {
+    path: 'business',
+    component: Business,
   }
   
 ];

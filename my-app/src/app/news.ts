@@ -11,7 +11,12 @@ export class NewsService {
 
   getNews() {
     return this.http.get(
-      `${environment.apiUrl}/news?apikey=${environment.apiKey}&country=us`
+      `${environment.apiUrl}/news?apikey=${environment.apiKey}&language=uk`
+    );
+  }
+  getCategoryNews(category: string){
+    return this.http.get(
+      `${environment.apiUrl}/news?apikey=${environment.apiKey}&language=uk&category=${category}`
     );
   }
 }

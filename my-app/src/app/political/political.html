@@ -1,1 +1,26 @@
-<p class = "main">political works!</p>
+<div class="main">
+<div *ngIf="isLoading" class="loading">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Завантаження...</span>
+  </div>
+  <p>Завантаження новин...</p>
+</div>
+
+
+  <ul>
+        <li><div class="container mt-4 text-start"><h1 class="text-title">Новинини політики</h1>
+                </div> </li>
+    <li><hr class="divider"><div *ngIf="news.length === 0" class="alert alert-info">
+    Новини не знайдені
+  </div></li>
+  <div *ngFor="let item of news" class="news-item">
+    <li><div class="container mt-4 text-start">
+    <h2>{{ item.title }}</h2>
+    <img *ngIf="item.image_url" [src]="item.image_url" [alt]="item.title" style="width: 300px; border-radius: 10px;">
+    <p class="text-news">{{ item.description }}</p>
+    <a [href]="item.link || '#'" target="_blank" class="btn btn-primary">Читати</a>
+    </div></li>
+    <li><hr class="divider"></li>
+  </div>
+  </ul>
+</div>

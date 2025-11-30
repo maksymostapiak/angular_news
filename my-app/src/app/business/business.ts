@@ -4,13 +4,13 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
-  selector: 'app-sport',
+  selector: 'app-business',
   imports: [CommonModule],
-  templateUrl: './sport.html',
-  styleUrl: './sport.css',
+  templateUrl: './business.html',
+  styleUrl: './business.css',
 })
-export class Sport implements OnInit{
-news: any[] = [];
+export class Business implements OnInit {
+  news: any[] = [];
   isLoading: boolean = true;
   error: string = '';
   hasError: boolean = false;
@@ -30,7 +30,7 @@ constructor(private newsService: NewsService, private cd: ChangeDetectorRef) {}
     
     console.log('Starting API call...');
     
-    this.newsService.getCategoryNews('sports').subscribe({
+    this.newsService.getNews().subscribe({
       next: (data: any) => { console.log('API call successful:', data);
         if (data && data.results && Array.isArray(data.results)) 
           { this.news = data.results; 

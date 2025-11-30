@@ -29,7 +29,7 @@ constructor(private newsService: NewsService, private cd: ChangeDetectorRef) {}
     this.isLoading = true;
     this.hasError = false;
     this.error = '';
-    this.news = []; // Очищаємо попередні дані
+    this.news = [];
     
     console.log('Starting API call...');
     
@@ -48,7 +48,7 @@ this.cd.detectChanges();
           this.hasError = true; this.isLoading = false;
 this.cd.detectChanges();
           this.news = []; }, 
-        complete: () => { console.log('API call completed'); this.isLoading = false; // Додатково вимикаємо в complete 
+        complete: () => { console.log('API call completed'); this.isLoading = false;
           }
     });
   }

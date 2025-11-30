@@ -7,17 +7,18 @@
 </div>
 
 
-<!-- Показуємо новини -->
-
-
   <div *ngIf="news.length === 0" class="alert alert-info">
     Новини не знайдені
   </div>
-
+  <ul>
   <div *ngFor="let item of news" class="news-item">
+    <li><div class="container mt-4 text-start">
     <h2>{{ item.title }}</h2>
     <img *ngIf="item.image_url" [src]="item.image_url" [alt]="item.title" style="width: 300px; border-radius: 10px;">
-    <p>{{ item.description }}</p>
+    <p class="text-news">{{ item.description }}</p>
     <a [href]="item.link || '#'" target="_blank" class="btn btn-primary">Читати</a>
+    </div></li>
+    <li><hr class="divider"></li>
   </div>
+  </ul>
 </div>
