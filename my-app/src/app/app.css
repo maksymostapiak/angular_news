@@ -4,3 +4,19 @@ height: 7%;
 img{
     margin-top: 30%;;
 }
+@media (max-width: 768px) {
+    img{
+    margin-top: 5%;
+    width: 30px;
+}
+nav{
+height: 10%;
+}
+li{
+    font-size: 10px;
+}
+.nav{
+    right: 0;
+    position: fixed;
+}
+}

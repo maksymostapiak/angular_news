@@ -16,15 +16,39 @@ html {
 .main{
     list-style-type: none;
     padding: 0;
-    margin: 5%;
+    margin-top: 5%;
 }
 .text-title{
     text-align: center;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.news-image{
+    width: 300px; border-radius: 10px;
 }
 h2{
     text-align: left;
     font-weight: bold;
     font-size: 40px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+@media (max-width: 768px) {
+.text-news{
+    text-align: left;
+    font-size: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+h2{
+    text-align: left;
+    font-weight: bold;
+    font-size: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.main{
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20%;
+}
+.news-image{
+    width: 200px; border-radius: 5px;
+}
 }
