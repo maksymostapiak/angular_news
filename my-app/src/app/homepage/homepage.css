@@ -1,15 +1,26 @@
-div{
-    padding-bottom: 1%;
-    padding-top: 1%;
-    margin-top: 2%;
+.loading {
+  text-align: center;
+  padding: 50px;
 }
-h1{margin-top: 1%;}
 
-ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 5%;
+.news-item {
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
 }
-hr.divider {
-    width: 80%;
+
+.news-item h2 {
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.news-item p {
+  line-height: 1.6;
+  margin: 15px 0;
+}
+
+.alert {
+  margin: 20px 0;
+  padding: 15px;
+  border-radius: 5px;
 }

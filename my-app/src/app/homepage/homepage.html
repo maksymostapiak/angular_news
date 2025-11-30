@@ -1,31 +1,23 @@
-          <ul >
-            <li><div class="container mt-4 text-start">
+<div class="main">
+<div *ngIf="isLoading" class="loading">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Завантаження...</span>
+  </div>
+  <p>Завантаження новин...</p>
+</div>
 
-    <img src="mars.jpg"
-         alt="Фото новини"
-         style="width: 400px; height: 300px; border-radius: 10px;">
-<h1 class="mb-3">Тестова новина</h1>
-    <p class="text-news">Щось десь колись сталося</p>
-    
-</div></li>
-            <li><hr class="divider"></li>
-            <li><div class="container mt-4 text-start">
 
-    <img src="mars.jpg"
-         alt="Фото новини"
-         style="width: 400px; height: 300px; border-radius: 10px;">
-<h1 class="mb-3">Тестова новина</h1>
-    <p class="text-news">Щось десь колись сталося</p>
-    
-</div></li>
-            <li><hr class="divider"></li>
-            <li><div class="container mt-4 text-start">
+<!-- Показуємо новини -->
 
-    <img src="mars.jpg"
-         alt="Фото новини"
-         style="width: 400px; height: 300px; border-radius: 10px;">
-<h1 class="mb-3">Тестова новина</h1>
-    <p class="text-news">Щось десь колись сталося</p>
-    
-</div></li>
-          </ul>
+
+  <div *ngIf="news.length === 0" class="alert alert-info">
+    Новини не знайдені
+  </div>
+
+  <div *ngFor="let item of news" class="news-item">
+    <h2>{{ item.title }}</h2>
+    <img *ngIf="item.image_url" [src]="item.image_url" [alt]="item.title" style="width: 300px; border-radius: 10px;">
+    <p>{{ item.description }}</p>
+    <a [href]="item.link || '#'" target="_blank" class="btn btn-primary">Читати</a>
+  </div>
+</div>
