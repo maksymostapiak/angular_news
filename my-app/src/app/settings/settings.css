@@ -3,3 +3,8 @@
     margin-left: 45%;
 }
 }
+@media (max-width: 1200px) {
+.main{
+    margin-left: 25%;
+}
+}

@@ -21,4 +21,15 @@
     <li><hr class="divider"></li>
   </div>
   </ul>
+<div class="input-group" id="search">
+  <input 
+    type="search" 
+    class="form-control" 
+    placeholder="Пошук..." 
+    aria-label="Пошук"
+    [(ngModel)]="searchText">
+  <button class="btn btn-outline-secondary" type="button" (click)="searchNews()">
+    <i class="bi bi-search"></i>
+  </button>
+</div>
 </div>

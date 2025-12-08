@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { NewsService } from '../news';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.html',
    imports: [
-    CommonModule
+    CommonModule, FormsModule
   ],
   styleUrls: ['./homepage.css'],
 })
@@ -17,12 +18,40 @@ export class Homepage implements OnInit {
   isLoading: boolean = true;
   error: string = '';
   hasError: boolean = false;
+  searchText: string = '';
 
 constructor(private newsService: NewsService, private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
     console.log('Homepage ngOnInit called');
     this.loadNews();
+  }
+
+ searchNews() {
+    if (!this.searchText || this.searchText.trim() === '') {
+      this.loadNews();
+      return;
+    }
+
+    this.isLoading = true;
+    this.news = [];
+    this.hasError = false;
+
+    this.newsService.getKeyWordsNews(this.searchText).subscribe({
+      next: (data: any) => {
+        if (data?.results) {
+          this.news = data.results;
+        }
+        this.isLoading = false;
+        this.cd.detectChanges();
+      },
+      error: () => {
+        this.error = 'Помилка пошуку новин';
+        this.isLoading = false;
+        this.hasError = true;
+        this.cd.detectChanges();
+      }
+    });
   }
 
   loadNews() {

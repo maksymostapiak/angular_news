@@ -19,4 +19,11 @@ export class NewsService {
       `${environment.apiUrl}/news?apikey=${environment.apiKey}&language=uk&category=${category}`
     );
   }
+  getKeyWordsNews(keystring: string){
+    const keywords = keystring.split(",").map(s => s.trim()).filter(s => s.length > 0);
+    const search = keywords.join(" OR ");
+    return this.http.get(
+      `${environment.apiUrl}/news?apikey=${environment.apiKey}&language=uk&q=${search}`
+    );
+  }
 }
