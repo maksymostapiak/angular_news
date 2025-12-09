@@ -6,30 +6,30 @@
   <p>Завантаження новин...</p>
 </div>
 
-
-  <div *ngIf="news.length === 0" class="alert alert-info">
-    Новини не знайдені
-  </div>
-  <ul>
-  <div *ngFor="let item of news" class="news-item">
-    <li><div class="container mt-4 text-start">
-    <h2>{{ item.title }}</h2>
-    <img *ngIf="item.image_url" [src]="item.image_url" [alt]="item.title" class="news-image">
-    <p class="text-news">{{ item.description }}</p>
-    <a [href]="item.link || '#'" target="_blank" class="btn btn-primary">Читати</a>
-    </div></li>
-    <li><hr class="divider"></li>
-  </div>
-  </ul>
 <div class="input-group" id="search">
   <input 
     type="search" 
     class="form-control" 
-    placeholder="Пошук..." 
+    placeholder="Пошук за ключовими словами..." 
     aria-label="Пошук"
     [(ngModel)]="searchText">
   <button class="btn btn-outline-secondary" type="button" (click)="searchNews()">
     <i class="bi bi-search"></i>
   </button>
 </div>
+  <div *ngIf="news.length === 0" class="alert alert-info">
+    Новини не знайдені
+  </div>
+  
+  <ul>
+  <div *ngFor="let item of news" class="news-item">
+    <li><div class="container mt-4 text-start">
+    <h2>{{ item.title }}</h2>
+    <img *ngIf="item.image_url" [src]="item.image_url" [alt]="item.title" class="news-image">
+    <p class="text-news">{{ item.description }}<br><small>{{item.pubDate.split(" ")[0]}}</small><br></p>
+    <a [href]="item.link || '#'" target="_blank" class="btn btn-primary">Читати</a>
+    </div></li>
+    <li><hr class="divider"></li>
+  </div>
+  </ul>
 </div>

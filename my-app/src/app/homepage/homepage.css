@@ -29,5 +29,11 @@ ul {
     margin: 5%;
 }
 #search{
-  margin-bottom: 1%;
+  margin: 5%;
+  width: 90%;
+}
+@media (max-width: 1024px) {
+  #search{
+  margin-top: 11vh;
+}
 }

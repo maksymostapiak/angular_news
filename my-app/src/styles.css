@@ -31,10 +31,22 @@ h2{
     font-size: 40px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+small{
+    opacity: 0.9;
+    text-align: left;
+    font-size: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
 @media (max-width: 768px) {
 .text-news{
     text-align: left;
     font-size: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+small{
+    opacity: 0.9;
+    text-align: left;
+    font-size: 8px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 h2{

@@ -9,21 +9,30 @@ export class NewsService {
 
   constructor(private http: HttpClient) {}
 
-  getNews() {
+  getNews(pageToken?: string) {
+    const base = `${environment.apiUrl}/news?apikey=${environment.apiKey}&language=uk`;
+
     return this.http.get(
-      `${environment.apiUrl}/news?apikey=${environment.apiKey}&language=uk`
+      pageToken ? `${base}&page=${pageToken}` : base
     );
   }
-  getCategoryNews(category: string){
+
+  getCategoryNews(category: string, pageToken?: string) {
+    const base = `${environment.apiUrl}/news?apikey=${environment.apiKey}&language=uk&category=${category}`;
+
     return this.http.get(
-      `${environment.apiUrl}/news?apikey=${environment.apiKey}&language=uk&category=${category}`
+      pageToken ? `${base}&page=${pageToken}` : base
     );
   }
-  getKeyWordsNews(keystring: string){
+
+  getKeyWordsNews(keystring: string, pageToken?: string) {
     const keywords = keystring.split(",").map(s => s.trim()).filter(s => s.length > 0);
     const search = keywords.join(" OR ");
+
+    const base = `${environment.apiUrl}/news?apikey=${environment.apiKey}&language=uk&q=${search}`;
+
     return this.http.get(
-      `${environment.apiUrl}/news?apikey=${environment.apiKey}&language=uk&q=${search}`
+      pageToken ? `${base}&page=${pageToken}` : base
     );
   }
 }

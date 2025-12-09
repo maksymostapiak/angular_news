@@ -1,47 +1,49 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { NewsService } from '../news';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.html',
-   imports: [
-    CommonModule, FormsModule
-  ],
+  imports: [CommonModule, FormsModule],
   styleUrls: ['./homepage.css'],
 })
 export class Homepage implements OnInit {
-  news: any[] = [];
-  isLoading: boolean = true;
-  error: string = '';
-  hasError: boolean = false;
-  searchText: string = '';
 
-constructor(private newsService: NewsService, private cd: ChangeDetectorRef) {}
+  news: any[] = [];
+  isLoading = false;
+  isLoadingMore = false;
+  hasError = false;
+  error = '';
+  searchText = '';
+
+  nextPageToken: string | null = null;
+  allLoaded = false;
+
+  constructor(private newsService: NewsService, private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
-    console.log('Homepage ngOnInit called');
     this.loadNews();
   }
 
- searchNews() {
-    if (!this.searchText || this.searchText.trim() === '') {
+  searchNews() {
+    if (!this.searchText.trim()) {
       this.loadNews();
       return;
     }
 
+    this.resetPagination();
+
     this.isLoading = true;
     this.news = [];
-    this.hasError = false;
 
     this.newsService.getKeyWordsNews(this.searchText).subscribe({
       next: (data: any) => {
-        if (data?.results) {
-          this.news = data.results;
-        }
+        this.news = data?.results || [];
+        this.nextPageToken = data?.nextPage || null;
+        this.allLoaded = !this.nextPageToken;
         this.isLoading = false;
         this.cd.detectChanges();
       },
@@ -54,32 +56,65 @@ constructor(private newsService: NewsService, private cd: ChangeDetectorRef) {}
     });
   }
 
-  loadNews() {
-    this.isLoading = true;
-    this.hasError = false;
-    this.error = '';
-    this.news = [];
-    
-    console.log('Starting API call...');
-    
-    this.newsService.getNews().subscribe({
-      next: (data: any) => { console.log('API call successful:', data);
-        if (data && data.results && Array.isArray(data.results)) 
-          { this.news = data.results; 
-            console.log('News loaded:', this.news.length, 'items');
-          this.isLoading = false } 
-        else { console.warn('Unexpected data format:', data); this.news = []; } 
+  loadNews(pageToken?: string, append = false) {
+    if (append && this.isLoadingMore) return;
+    if (!append && this.isLoading) return;
+
+    if (append) {
+      this.isLoadingMore = true;
+    } else {
+      this.resetPagination();
+      this.isLoading = true;
+      this.news = [];
+    }
+
+    this.newsService.getNews(pageToken).subscribe({
+      next: (data: any) => {
+        const items = data?.results || [];
+
+        this.news = append ? [...this.news, ...items] : items;
+        this.nextPageToken = data?.nextPage || null;
+        this.allLoaded = !this.nextPageToken;
+
         this.isLoading = false;
-this.cd.detectChanges();
-         }, 
-         
-        error: (error) => { console.error('API call failed:', error); this.error = 'Помилка завантаження новин'; 
-          this.hasError = true; this.isLoading = false;
-this.cd.detectChanges();
-          this.news = []; }, 
-        complete: () => { console.log('API call completed'); this.isLoading = false;
-          }
+        this.isLoadingMore = false;
+        this.cd.detectChanges();
+      },
+      error: () => {
+        this.error = 'Помилка завантаження новин';
+        this.hasError = true;
+        this.isLoading = false;
+        this.isLoadingMore = false;
+        this.cd.detectChanges();
+      }
     });
   }
 
+  resetPagination() {
+    this.nextPageToken = null;
+    this.allLoaded = false;
+    this.isLoadingMore = false;
+  }
+
+  private scrollBlocked = false;
+
+@HostListener('window:scroll', [])
+onScroll() {
+  if (this.scrollBlocked) return;
+
+  this.scrollBlocked = true;
+  setTimeout(() => this.scrollBlocked = false, 500);
+
+  if (this.allLoaded || this.isLoadingMore) return;
+
+  const scrollPosition = window.innerHeight + window.scrollY;
+  const pageHeight = document.body.offsetHeight;
+
+  if (scrollPosition >= pageHeight - 150) {
+    if (this.nextPageToken) {
+      this.loadNews(this.nextPageToken, true);
+    }
+  }
 }
+}
+

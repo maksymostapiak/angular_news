@@ -4,13 +4,13 @@ height: 7%;
 img{
     margin-top: 30%;;
 }
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     img{
     margin-top: 5%;
     width: 30px;
 }
 nav{
-height: 10%;
+height: 8%;
 }
 li{
     font-size: 10px;
