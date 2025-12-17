@@ -1,11 +1,8 @@
 import { Routes } from '@angular/router';
 import { Homepage } from './homepage/homepage';
 import { Contacts } from './contacts/contacts';
-import { Political } from './political/political';
-import { Sport } from './sport/sport';
-import { It } from './it/it';
 import { Settings } from './settings/settings';
-import { Business } from './business/business';
+import { Category_news } from './category-news/category-news';
 
 export const routes: Routes = [
      {
@@ -16,25 +13,13 @@ export const routes: Routes = [
     path: 'contacts',
     component: Contacts,
   },
-    {
-    path: 'political',
-    component: Political,
-  },
-    {
-    path: 'sport',
-    component: Sport,
-  },
-    {
-    path: 'it',
-    component: It,
-  },
       {
     path: 'settings',
     component: Settings,
   },
       {
-    path: 'business',
-    component: Business,
+    path: 'category-news/:type',
+    component: Category_news,
   }
   
 ];

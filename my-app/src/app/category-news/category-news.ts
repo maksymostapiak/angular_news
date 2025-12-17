@@ -1,16 +1,30 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { NewsService } from '../news';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { NewsService } from '../news';
+
 @Component({
-  selector: 'app-political',
+  selector: 'app-category',
+  standalone: true,
   imports: [CommonModule],
-  templateUrl: './political.html',
-  styleUrl: './political.css',
+  templateUrl: './category-news.html',
+  styleUrl: './category-news.css',
 })
-export class Political implements OnInit{
+export class Category_news implements OnInit {
 
   news: any[] = [];
+  category = '';
+  categories: { [key: string]: string } = {
+  "politics": "політики",
+  "sports": "спорту",
+  "business": "бізнесу",
+  "technology": "IT",
+  "science": "науки",
+  "health": "здоров`я",
+  "education": "освіти",
+  "environment": "довкілля"
+};
   isLoading = false;
   isLoadingMore = false;
   hasError = false;
@@ -19,10 +33,17 @@ export class Political implements OnInit{
   nextPageToken: string | null = null;
   allLoaded = false;
 
-  constructor(private newsService: NewsService, private cd: ChangeDetectorRef) {}
+  constructor(
+    private newsService: NewsService,
+    private route: ActivatedRoute,
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+    this.category = params.get('type') || 'politics';
     this.loadNews();
+  });
   }
 
   loadNews(pageToken?: string, append = false) {
@@ -37,11 +58,13 @@ export class Political implements OnInit{
       this.news = [];
     }
 
-    this.newsService.getCategoryNews('politics',pageToken).subscribe({
+    this.newsService.getCategoryNews(this.category, pageToken).subscribe({
       next: (data: any) => {
-        const items = data?.results || [];
+        console.log('API response:', data);
 
+        const items = data?.results || [];
         this.news = append ? [...this.news, ...items] : items;
+
         this.nextPageToken = data?.nextPage || null;
         this.allLoaded = !this.nextPageToken;
 
@@ -67,22 +90,18 @@ export class Political implements OnInit{
 
   private scrollBlocked = false;
 
-@HostListener('window:scroll', [])
-onScroll() {
-  if (this.scrollBlocked) return;
+  @HostListener('window:scroll', [])
+  onScroll() {
+    if (this.scrollBlocked || this.allLoaded || this.isLoadingMore) return;
 
-  this.scrollBlocked = true;
-  setTimeout(() => this.scrollBlocked = false, 500);
+    this.scrollBlocked = true;
+    setTimeout(() => this.scrollBlocked = false, 500);
 
-  if (this.allLoaded || this.isLoadingMore) return;
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const pageHeight = document.body.offsetHeight;
 
-  const scrollPosition = window.innerHeight + window.scrollY;
-  const pageHeight = document.body.offsetHeight;
-
-  if (scrollPosition >= pageHeight - 150) {
-    if (this.nextPageToken) {
+    if (scrollPosition >= pageHeight - 150 && this.nextPageToken) {
       this.loadNews(this.nextPageToken, true);
     }
   }
-}
 }

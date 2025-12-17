@@ -1,38 +1,48 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
+import { BehaviorSubject, switchMap } from 'rxjs';
+import { LanguageService } from './language';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class NewsService {
 
-  constructor(private http: HttpClient) {}
+  private language$ = new BehaviorSubject<'ua' | 'en'>('ua');
+
+  constructor(
+    private http: HttpClient,
+    private languageService: LanguageService
+  ) {
+    this.languageService.language$.subscribe(lang => {
+      this.language$.next(lang);
+    });
+  }
+
+  private buildUrl(params: string) {
+    const lang = this.language$.getValue();
+    const apiLang = lang === 'ua' ? 'uk' : 'en';
+
+    return `${environment.apiUrl}/news?apikey=${environment.apiKey}&language=${apiLang}${params}`;
+  }
 
   getNews(pageToken?: string) {
-    const base = `${environment.apiUrl}/news?apikey=${environment.apiKey}&language=uk`;
-
-    return this.http.get(
-      pageToken ? `${base}&page=${pageToken}` : base
-    );
+    const url = this.buildUrl(pageToken ? `&page=${pageToken}` : '');
+    return this.http.get(url);
   }
 
   getCategoryNews(category: string, pageToken?: string) {
-    const base = `${environment.apiUrl}/news?apikey=${environment.apiKey}&language=uk&category=${category}`;
-
-    return this.http.get(
-      pageToken ? `${base}&page=${pageToken}` : base
-    );
+    const url = this.buildUrl(`&category=${category}${pageToken ? `&page=${pageToken}` : ''}`);
+    return this.http.get(url);
   }
 
   getKeyWordsNews(keystring: string, pageToken?: string) {
-    const keywords = keystring.split(",").map(s => s.trim()).filter(s => s.length > 0);
-    const search = keywords.join(" OR ");
+    const keywords = keystring
+      .split(',')
+      .map(s => s.trim())
+      .filter(Boolean)
+      .join(' OR ');
 
-    const base = `${environment.apiUrl}/news?apikey=${environment.apiKey}&language=uk&q=${search}`;
-
-    return this.http.get(
-      pageToken ? `${base}&page=${pageToken}` : base
-    );
+    const url = this.buildUrl(`&q=${keywords}${pageToken ? `&page=${pageToken}` : ''}`);
+    return this.http.get(url);
   }
 }

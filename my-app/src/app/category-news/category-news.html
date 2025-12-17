@@ -8,10 +8,10 @@
 
 
   <ul>
-        <li><div class="container mt-4 text-start"><h1 class="text-title">Новини спорту</h1>
+        <li><div class="container mt-4 text-start"><h1 class="text-title">Новини {{ categories[category] }}</h1>
                 </div> </li>
     <li><hr class="divider"><div *ngIf="news.length === 0" class="alert alert-info">
-    Новини не знайдені
+    <p>Новини не знайдені</p>
   </div></li>
   <div *ngFor="let item of news" class="news-item">
     <li><div class="container mt-4 text-start">
@@ -24,4 +24,3 @@
   </div>
   </ul>
 </div>
-

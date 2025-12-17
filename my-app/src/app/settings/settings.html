@@ -22,4 +22,29 @@
     Темна тема
   </label>
 </form>
+<br>
+  <h3>Виберіть мову новин:</h3>
+  <form>
+    <label>
+      <input
+        type="radio"
+        name="language"
+        value="ua"
+        [(ngModel)]="language"
+        (change)="changeLanguage('ua')"
+      >
+      Українська
+    </label>
+
+    <label style="margin-left: 20px;">
+      <input
+        type="radio"
+        name="language"
+        value="en"
+        [(ngModel)]="language"
+        (change)="changeLanguage('en')"
+      >
+      English
+    </label>
+  </form>
 </div>
