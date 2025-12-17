@@ -3,6 +3,7 @@ import { Homepage } from './homepage/homepage';
 import { Contacts } from './contacts/contacts';
 import { Settings } from './settings/settings';
 import { Category_news } from './category-news/category-news';
+import { NotFound } from './not-found/not-found';
 
 export const routes: Routes = [
      {
@@ -20,6 +21,7 @@ export const routes: Routes = [
       {
     path: 'category-news/:type',
     component: Category_news,
-  }
+  },
+  { path: '**', component: NotFound }
   
 ];
