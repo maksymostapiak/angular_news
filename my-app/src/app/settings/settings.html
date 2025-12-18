@@ -1,28 +1,32 @@
-<div class="main"><h3>Виберіть тему:</h3>
-<form>
-  <label>
-    <input 
-      type="radio" 
-      name="theme" 
-      value="light" 
-      [(ngModel)]="theme"
-      (change)="changeTheme('light')"
-    >
-    Світла тема
-  </label>
+<div class="main">
 
-  <label style="margin-left: 20px;">
-    <input 
-      type="radio" 
-      name="theme" 
-      value="dark" 
-      [(ngModel)]="theme"
-      (change)="changeTheme('dark')"
-    >
-    Темна тема
-  </label>
-</form>
-<br>
+  <h3>Виберіть тему:</h3>
+  <form>
+    <label>
+      <input
+        type="radio"
+        name="theme"
+        value="light"
+        [(ngModel)]="theme"
+        (change)="changeTheme('light')"
+      >
+      Світла тема
+    </label>
+
+    <label style="margin-left: 20px;">
+      <input
+        type="radio"
+        name="theme"
+        value="dark"
+        [(ngModel)]="theme"
+        (change)="changeTheme('dark')"
+      >
+      Темна тема
+    </label>
+  </form>
+
+  <br>
+
   <h3>Виберіть мову новин:</h3>
   <form>
     <label>
@@ -47,4 +51,14 @@
       English
     </label>
   </form>
+
+  <br>
+
+  <h3>Якість джерел:</h3>
+  <select [(ngModel)]="priority" (change)="changePriority(priority)" name="priority">
+    <option value="low">Низька</option>
+    <option value="medium">Середня</option>
+    <option value="top">Висока</option>
+  </select>
+
 </div>

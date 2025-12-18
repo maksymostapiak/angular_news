@@ -19,7 +19,7 @@ export class Category_news implements OnInit {
   "politics": "політики",
   "sports": "спорту",
   "business": "бізнесу",
-  "technology": "IT",
+  "technology": "технологій",
   "science": "науки",
   "health": "здоров`я",
   "education": "освіти",

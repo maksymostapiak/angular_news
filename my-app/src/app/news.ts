@@ -1,28 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
-import { BehaviorSubject, switchMap } from 'rxjs';
-import { LanguageService } from './language';
+import { SettingsService} from './news-settings';
 
 @Injectable({ providedIn: 'root' })
 export class NewsService {
 
-  private language$ = new BehaviorSubject<'ua' | 'en'>('ua');
-
   constructor(
     private http: HttpClient,
-    private languageService: LanguageService
-  ) {
-    this.languageService.language$.subscribe(lang => {
-      this.language$.next(lang);
-    });
-  }
+    private settingsService: SettingsService
+  ) {}
 
-  private buildUrl(params: string) {
-    const lang = this.language$.getValue();
+  private buildUrl(params: string = ''): string {
+    const lang = this.settingsService.getLanguage();
     const apiLang = lang === 'ua' ? 'uk' : 'en';
 
-    return `${environment.apiUrl}/news?apikey=${environment.apiKey}&language=${apiLang}${params}`;
+    const priority = this.settingsService.getPriority();
+
+    let url =
+      `${environment.apiUrl}/news` +
+      `?apikey=${environment.apiKey}` +
+      `&language=${apiLang}`+
+      `&prioritydomain=${priority}`;
+    return url + params;
   }
 
   getNews(pageToken?: string) {
@@ -31,7 +31,10 @@ export class NewsService {
   }
 
   getCategoryNews(category: string, pageToken?: string) {
-    const url = this.buildUrl(`&category=${category}${pageToken ? `&page=${pageToken}` : ''}`);
+    const url = this.buildUrl(
+      `&category=${encodeURIComponent(category)}` +
+      `${pageToken ? `&page=${pageToken}` : ''}`
+    );
     return this.http.get(url);
   }
 
@@ -42,7 +45,11 @@ export class NewsService {
       .filter(Boolean)
       .join(' OR ');
 
-    const url = this.buildUrl(`&q=${keywords}${pageToken ? `&page=${pageToken}` : ''}`);
+    const url = this.buildUrl(
+      `&q=${encodeURIComponent(keywords)}` +
+      `${pageToken ? `&page=${pageToken}` : ''}`
+    );
+
     return this.http.get(url);
   }
 }
